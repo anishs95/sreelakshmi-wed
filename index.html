@@ -118,6 +118,78 @@
     50% { opacity: 0.9; transform: scale(1.3); }
   }
 
+  /* Golden rays — slow sweeping light beams across the page */
+  .gold-rays {
+    position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    overflow: hidden;
+    mix-blend-mode: screen;
+  }
+  .gold-rays::before, .gold-rays::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -30%;
+    width: 80%; height: 200%;
+    background: linear-gradient(115deg,
+      transparent 40%,
+      rgba(240,217,138,0.08) 48%,
+      rgba(255,245,200,0.22) 50%,
+      rgba(240,217,138,0.08) 52%,
+      transparent 60%);
+    transform: rotate(-12deg);
+    animation: raySweep 14s ease-in-out infinite;
+  }
+  .gold-rays::after {
+    left: 30%;
+    animation-delay: -7s;
+    animation-duration: 18s;
+    opacity: 0.7;
+  }
+  @keyframes raySweep {
+    0%, 100% { transform: translateX(-30%) rotate(-12deg); opacity: 0; }
+    50%      { transform: translateX(30%) rotate(-12deg);  opacity: 1; }
+  }
+
+  /* Golden aura pulse — glows behind ornate cards */
+  .ornate-card {
+    position: relative;
+  }
+  .ornate-card::after {
+    content: '';
+    position: absolute; inset: -30px;
+    background: radial-gradient(ellipse at center,
+      rgba(240,217,138,0.35) 0%,
+      rgba(196,154,42,0.18) 35%,
+      transparent 70%);
+    filter: blur(28px);
+    z-index: -1;
+    pointer-events: none;
+    animation: auraPulse 5s ease-in-out infinite;
+  }
+  @keyframes auraPulse {
+    0%, 100% { opacity: 0.5; transform: scale(0.97); }
+    50%      { opacity: 1;   transform: scale(1.03); }
+  }
+
+  /* Gold shimmer on card borders */
+  @keyframes borderShine {
+    0%, 100% { box-shadow:
+      0 40px 90px -30px rgba(106,79,16,0.35),
+      0 8px 24px -8px rgba(106,79,16,0.15),
+      0 0 0 1px rgba(196,154,42,0.55),
+      inset 0 0 0 7px rgba(255,255,255,0.8),
+      inset 0 0 0 8px rgba(196,154,42,0.45),
+      inset 0 0 0 10px rgba(154,162,174,0.25),
+      inset 0 0 80px rgba(196,154,42,0.05); }
+    50% { box-shadow:
+      0 40px 90px -30px rgba(106,79,16,0.4),
+      0 8px 28px -8px rgba(196,154,42,0.35),
+      0 0 0 1px rgba(240,217,138,0.8),
+      inset 0 0 0 7px rgba(255,250,225,0.9),
+      inset 0 0 0 8px rgba(240,217,138,0.7),
+      inset 0 0 0 10px rgba(196,154,42,0.35),
+      inset 0 0 120px rgba(240,217,138,0.12); }
+  }
+
   .screen {
     position: relative; z-index: 3;
     min-height: 100vh;
@@ -128,20 +200,12 @@
 
   /* ivory card with gold + silver borders */
   .ornate-card {
-    position: relative;
     background:
       radial-gradient(ellipse at top left, #fffae3 0%, transparent 55%),
       radial-gradient(ellipse at bottom right, #f5edd0 0%, transparent 55%),
       linear-gradient(170deg, #fdfaf0 0%, #f6eed6 100%);
     border-radius: 22px;
-    box-shadow:
-      0 40px 90px -30px rgba(106,79,16,0.35),
-      0 8px 24px -8px rgba(106,79,16,0.15),
-      0 0 0 1px rgba(196,154,42,0.55),
-      inset 0 0 0 7px rgba(255,255,255,0.8),
-      inset 0 0 0 8px rgba(196,154,42,0.45),
-      inset 0 0 0 10px rgba(154,162,174,0.25),
-      inset 0 0 80px rgba(196,154,42,0.05);
+    animation: borderShine 6s ease-in-out infinite;
   }
 
   /* ====== SCREEN 0: WELCOME ====== */
@@ -282,12 +346,16 @@
 
   /* ====== LARGE BUTTONS ====== */
   .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+    display: inline-flex; align-items: center; justify-content: center; gap: clamp(6px, 1.2vw, 12px);
     width: 100%;
-    min-height: 64px;
-    padding: 20px 36px;
+    min-height: clamp(52px, 7vw, 64px);
+    padding: clamp(14px, 2vw, 20px) clamp(18px, 3vw, 36px);
     font-family: 'Cinzel', serif;
-    font-weight: 600; font-size: 15px; letter-spacing: 0.28em; text-transform: uppercase;
+    font-weight: 600;
+    font-size: clamp(11px, 1.3vw, 15px);
+    letter-spacing: clamp(0.12em, 0.22vw, 0.28em);
+    text-transform: uppercase;
+    white-space: nowrap;
     color: #2a1f08;
     background: linear-gradient(135deg, #6a4f10 0%, #c49a2a 30%, #f0d98a 50%, #c49a2a 70%, #6a4f10 100%);
     border: none;
@@ -347,8 +415,8 @@
     min-height: 58px;
   }
   .btn.ghost:hover { background: rgba(196,154,42,0.08); color: var(--gold-mid); box-shadow: inset 0 0 0 2px var(--gold); }
-  .btn.sm { min-height: 52px; padding: 14px 26px; font-size: 12px; width: auto; }
-  .btn.xl { min-height: 76px; padding: 24px 40px; font-size: 16px; letter-spacing: 0.32em; }
+  .btn.sm { min-height: clamp(44px, 5vw, 52px); padding: clamp(10px, 1.2vw, 14px) clamp(16px, 2vw, 26px); font-size: clamp(10px, 1.05vw, 12px); width: auto; letter-spacing: clamp(0.1em, 0.2vw, 0.22em); }
+  .btn.xl { min-height: clamp(60px, 7.5vw, 76px); padding: clamp(16px, 2.2vw, 24px) clamp(20px, 3.2vw, 40px); font-size: clamp(12px, 1.35vw, 16px); letter-spacing: clamp(0.16em, 0.24vw, 0.32em); }
 
   /* ====== SCREEN 1: INVITATION ====== */
   .invitation-scene {
@@ -918,6 +986,38 @@
     50% { transform: rotate(8deg); }
   }
 
+  /* DEV CREDIT */
+  .dev-credit {
+    position: relative; z-index: 4;
+    text-align: center;
+    padding: 22px 20px 32px;
+    font-family: 'Tenor Sans', serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--silver-mid);
+  }
+  .dev-credit a {
+    background: linear-gradient(135deg, #6a4f10, #c49a2a 50%, #e8c967);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 4px;
+    letter-spacing: 0.18em;
+  }
+  .dev-credit a:hover { filter: brightness(1.15); }
+  .dev-credit .heart {
+    color: #c49a2a;
+    display: inline-block;
+    animation: heartBeat 1.6s ease-in-out infinite;
+    -webkit-text-fill-color: #c49a2a;
+  }
+  @keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    25%, 75% { transform: scale(1.15); }
+  }
+
   /* PROGRESS DOTS */
   .progress {
     position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
@@ -1080,6 +1180,7 @@
   <div class="progress-dot"></div>
 </div>
 
+<div class="gold-rays"></div>
 <div class="petals" id="petals"></div>
 <div class="sparks" id="sparks"></div>
 
@@ -1090,10 +1191,6 @@
       <div class="deity-col">
         <div class="deity"><img src="assets/ganapathy.png" alt="Lord Ganapathy"/></div>
         <div class="deity-label">Ganapathy</div>
-      </div>
-      <div class="deity-col">
-        <div class="deity"><img src="assets/guru.png" alt="Sree Narayana Guru"/></div>
-        <div class="deity-label">Sree Narayana Guru</div>
       </div>
     </div>
 
@@ -1232,16 +1329,6 @@
           </button>
         </div>
 
-        <div class="blessing-footer">
-          <div class="deity-col">
-            <div class="deity sm"><img src="assets/guru.png" alt="Sree Narayana Guru"/></div>
-            <div class="deity-label" style="margin-top:4px;">Sree Narayana Guru</div>
-          </div>
-          <div class="sanskrit">
-            "One Caste, One Religion,<br/>One God for Man"
-            <small>Blessed by the Guru</small>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -1297,9 +1384,8 @@
 <!-- SCREEN 3: THANK YOU + TWO MAPS -->
 <section class="screen hidden" id="screen-thanks">
   <div class="thanks-card ornate-card">
-    <div style="display:flex; justify-content:center; gap: 20px; margin-bottom: 16px;">
+    <div style="display:flex; justify-content:center; margin-bottom: 16px;">
       <div class="deity"><img src="assets/ganapathy.png" alt="Lord Ganapathy"/></div>
-      <div class="deity"><img src="assets/guru.png" alt="Sree Narayana Guru"/></div>
     </div>
     <div class="save-the-date" style="display:inline-flex; margin-bottom: 8px;">With Gratitude</div>
     <h2 class="thanks-title grad-gold" id="thanksTitle">Thank You!</h2>
@@ -1407,6 +1493,11 @@
   <span class="note">♪</span>
 </button>
 
+<footer class="dev-credit">
+  Crafted with <span class="heart">♥</span> by
+  <a href="tel:+919400585673">Anish S · +91 94005 85673</a>
+</footer>
+
 <script>
 const state = { name:'', attending:null, count:1, screen:'welcome' };
 
@@ -1432,9 +1523,9 @@ function sendRsvpToSheet() {
 // petals & sparks
 (function(){
   const petals = document.getElementById('petals');
-  for (let i = 0; i < 22; i++) {
+  for (let i = 0; i < 34; i++) {
     const p = document.createElement('div');
-    p.className = 'petal' + (i % 2 === 0 ? ' silver' : '');
+    p.className = 'petal' + (i % 4 === 0 ? ' silver' : '');
     const size = 10 + Math.random() * 14;
     p.style.width = p.style.height = size + 'px';
     p.style.left = (Math.random() * 100) + '%';
@@ -1445,9 +1536,9 @@ function sendRsvpToSheet() {
     petals.appendChild(p);
   }
   const sparks = document.getElementById('sparks');
-  for (let i = 0; i < 44; i++) {
+  for (let i = 0; i < 80; i++) {
     const s = document.createElement('div');
-    s.className = 'spark' + (i % 3 === 0 ? ' silver' : '');
+    s.className = 'spark' + (i % 5 === 0 ? ' silver' : '');
     s.style.left = (Math.random() * 100) + '%';
     s.style.top = (Math.random() * 100) + '%';
     s.style.animationDuration = (2 + Math.random() * 4) + 's';
