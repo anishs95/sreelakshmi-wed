@@ -76,12 +76,14 @@
   }
 
   .grad-gold {
-    background: linear-gradient(135deg, #6a4f10 0%, #c49a2a 25%, #f0d98a 50%, #c49a2a 75%, #6a4f10 100%);
+    background: linear-gradient(135deg, #3a2808 0%, #8a6a14 30%, #b8841c 50%, #8a6a14 70%, #3a2808 100%);
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 1px 1px rgba(58,40,8,0.35));
   }
   .grad-silver {
-    background: linear-gradient(135deg, #3d424b 0%, #9aa2ae 30%, #eef1f6 50%, #9aa2ae 70%, #3d424b 100%);
+    background: linear-gradient(135deg, #14181f 0%, #3d424b 30%, #6e7480 50%, #3d424b 70%, #14181f 100%);
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 1px 1px rgba(20,24,31,0.35));
   }
 
   /* petals */
@@ -658,8 +660,8 @@
     letter-spacing: 0.04em;
     transform: translateZ(30px);
   }
-  .name.gold { background: linear-gradient(135deg, #6a4f10, #c49a2a 30%, #f0d98a 50%, #c49a2a 70%, #6a4f10); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  .name.silver { background: linear-gradient(135deg, #3d424b, #9aa2ae 30%, #eef1f6 50%, #9aa2ae 70%, #3d424b); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .name.gold { background: linear-gradient(135deg, #3a2808, #8a6a14 30%, #b8841c 50%, #8a6a14 70%, #3a2808); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 3px rgba(58,40,8,0.4)); }
+  .name.silver { background: linear-gradient(135deg, #14181f, #3d424b 30%, #6e7480 50%, #3d424b 70%, #14181f); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 3px rgba(20,24,31,0.4)); }
 
   .connector {
     display: flex; align-items: center; justify-content: center; gap: 16px;
